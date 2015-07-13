@@ -1,0 +1,7 @@
+IMAGE=~/.blur.png
+ICON=~/.i3/lock-icon.png
+scrot $IMAGE
+convert $IMAGE -scale 5% -scale 2000% $IMAGE
+convert $IMAGE $ICON -gravity center -composite -matte $IMAGE
+i3lock -u -i $IMAGE
+sudo pm-suspend
