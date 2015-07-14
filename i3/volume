@@ -15,12 +15,12 @@ esac
 
 # What to display in i3bar:
 if [[ $STATE == '[off]' ]]; then
-        echo "♫"
-        echo "♫"
+        echo "🔇"
+	echo "🔇"
         echo "#F2CC66"
         exit 0
 else
-        echo "♫" $VOLUME
+        echo "🔊" $VOLUME
         exit 0
 fi
 

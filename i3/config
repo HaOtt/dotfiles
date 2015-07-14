@@ -167,17 +167,21 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 #Floating Windows
-
 for_window [window_role="pop-up"] floating enable
 for_window [title="File Operation Progress"] floating enable
 for_window [title="tast_dialog"] floating enable
 
+#Window Boarder
+new_window 1pixel
+
+#Set per-application layout
+for_window [class="Firefox" instance="Navigator"] layout tabbed
+
 #Applications
-exec_always --no-startup-id compton --config ~/.compton.conf -b
+exec --no-startup-id compton --config ~/.compton.conf -b
 exec_always --no-startup-id ~/.fehbg &
 exec_always --no-startup-id xrdb ~/.Xresources
-exec_always thunar --daemon
-exec_always --no-startup-id dropbox & 
+exec --no-startup-id dropbox & 
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
