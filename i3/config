@@ -45,11 +45,10 @@ bindsym $mod+Shift+q kill
 # installed.
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# Start thunar file manager
-bindsym $mod+t exec thunar
-
-# Start Firefox
-bindsym $mod+x exec firefox
+# Start applications
+bindsym $mod+Shift+t exec thunar
+bindsym $mod+Shift+f exec firefox
+bindsym $mod+Shift+g exec google-chrome-stable
 
 #Media Keys
 bindsym XF86AudioPrev exec playerctl previous
@@ -173,12 +172,14 @@ for_window [title="tast_dialog"] floating enable
 
 #Window Boarder
 new_window 1pixel
+#hide_edge_borders both
 
 #Set per-application layout
-for_window [class="Firefox" instance="Navigator"] layout tabbed
+for_window [class="Firefox" instance="Navigator"] border none
+for_window [class="Google-chrome" title="Google Chrome"] border none
 
 #Applications
-exec --no-startup-id compton --config ~/.compton.conf -b
+exec --no-startup-id compton -CGb
 exec_always --no-startup-id ~/.fehbg &
 exec_always --no-startup-id xrdb ~/.Xresources
 exec --no-startup-id dropbox & 
