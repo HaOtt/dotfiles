@@ -51,6 +51,10 @@ bindsym $mod+Shift+f exec firefox
 bindsym $mod+Shift+g exec google-chrome-stable
 
 #Media Keys
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+#bindsym XF86KbdBrightnessDown
+#bindsym XF86KbdBrightnessUp
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -179,7 +183,7 @@ for_window [class="Firefox" instance="Navigator"] border none
 for_window [class="Google-chrome" title="Google Chrome"] border none
 
 #Applications
-exec --no-startup-id compton -CGb
+#exec --no-startup-id compton -CGb
 exec_always --no-startup-id ~/.fehbg &
 exec_always --no-startup-id xrdb ~/.Xresources
 exec --no-startup-id dropbox & 

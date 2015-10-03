@@ -4,4 +4,4 @@ scrot $IMAGE
 convert $IMAGE -scale 5% -scale 2000% $IMAGE
 convert $IMAGE $ICON -gravity center -composite -matte $IMAGE
 i3lock -u -i $IMAGE
-sudo pm-suspend
+xset dpms force off
