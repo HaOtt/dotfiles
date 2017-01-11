@@ -30,7 +30,7 @@ font pango:Source Code Pro 8
 floating_modifier $mod
 
 #suspend and lock
-bindsym Ctrl+Mod1+s exec ~/.i3/suspend-and-lock.bash
+bindsym Ctrl+Mod1+l exec ~/.i3/suspend-and-lock.bash
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
@@ -49,15 +49,16 @@ bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+Shift+t exec thunar
 bindsym $mod+Shift+f exec firefox
 bindsym $mod+Shift+g exec google-chrome-stable
+bindsym $mod+Shift+s exec import Screenshot-$(date +'%F-%k-%M-%S').png
 
 #Media Keys
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86KbdBrightnessDown exec kbdlight down 10
 bindsym XF86KbdBrightnessUp exec kbdlight up 10
-bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPlay exec playerctl play-pause
+bindsym Control+Left exec playerctl previous
+bindsym Control+Right exec playerctl next
+bindsym Control+Down exec playerctl play-pause
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%-
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+
@@ -186,7 +187,6 @@ for_window [class="Google-chrome" title="Google Chrome"] border none
 
 #Applications
 exec --no-startup-id nm-applet
-exec_always --no-startup-id xrandr --dpi 96
 exec_always --no-startup-id ~/.fehbg &
 exec_always --no-startup-id xrdb ~/.Xresources
 exec --no-startup-id dropbox & 
@@ -200,12 +200,12 @@ bar {
 	status_command 		i3blocks -c ~/.i3/i3blocks.conf
        
 	colors {
-        	background         #2d2d2d
+        	background         #444444
         	statusline         #dedede
-        	separator          #2d2d2d
+        	separator          #444444
         	focused_workspace  #d64937 #d64937 #dedede
-        	active_workspace   #2d2d2d #5f676a #dedede
-        	inactive_workspace #2d2d2d #2d2d2d #888888
+        	active_workspace   #444444 #5f676a #dedede
+        	inactive_workspace #444444 #444444 #888888
         	urgent_workspace   #333333 #900000 #ffffff
     	}
 }
