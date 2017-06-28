@@ -1,7 +1,8 @@
-IMAGE=~/.blur.png
-ICON=~/.i3/lock-icon.png
-scrot $IMAGE
-convert $IMAGE -scale 5% -scale 2000% $IMAGE
-convert $IMAGE $ICON -gravity center -composite -matte $IMAGE
-i3lock -u -i $IMAGE
+#IMAGE=~/.blur.png
+#ICON=~/.i3/lock-icon.png
+#scrot $IMAGE
+#convert $IMAGE -scale 5% -scale 2000% $IMAGE
+#convert $IMAGE $ICON -gravity center -composite -matte $IMAGE
+#i3lock -u -i $IMAGE
+i3lock -u -i /home/haott/Dropbox/Pictures/wallpapers/Wallpaper-arch-n1.png
 xset dpms force off
