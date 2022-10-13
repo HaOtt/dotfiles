@@ -13,7 +13,8 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use "EdenEast/nightfox.nvim"
   use {
-      "williamboman/nvim-lsp-installer",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
       "neovim/nvim-lspconfig",
   }
   use {
@@ -25,9 +26,14 @@ require('packer').startup(function(use)
     {'ms-jpq/coq.artifacts', branch = 'artifacts'},
     {'ms-jpq/coq.thirdparty', branch = '3p'},
   }
-  use "lukas-reineke/indent-blankline.nvim"
+  use {
+	  "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+  }
+  use 'lervag/vimtex'
   use {'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps'}
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use {'nvim-orgmode/orgmode'}
 
   if packer_bootstrap then
     require('packer').sync()
@@ -72,23 +78,32 @@ o.termguicolors = true
 g.base16colorspace = 256
 cmd('colorscheme nightfox')
 
-local lsp_installer = require("nvim-lsp-installer")
+g.vimtex_view_method = "zathura"
+
+
+require("mason").setup()
+require("mason-lspconfig").setup()
 g.coq_settings = {auto_start = 'shut-up'}
 local coq = require "coq"
-lsp_installer.on_server_ready(function(server)
-  local opts = {}
-  server:setup(coq.lsp_ensure_capabilities(opts))
-end)
-
-require("indent_blankline").setup {
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = true,
+require("mason-lspconfig").setup_handlers {
+    function (server_name)
+        require("lspconfig")[server_name].setup(coq.lsp_ensure_capabilities({}))
+    end
 }
+require("coq_3p") {
+  { src = "nvimlua", short_name = "nLUA" },
+  { src = "vimtex",  short_name = "vTEX" },
+  { src = "orgmode", short_name = "ORG" },
 
-
+}
+require('orgmode').setup_ts_grammar()
 require'nvim-treesitter.configs'.setup {
     highlight = {
       enable = true,
+      additional_vim_regex_highlighting = {'org'},
     }
   }
+require('orgmode').setup({
+  org_agenda_files = {'~/Nextcloud/org/*', '~/my-orgs/**/*'},
+  org_default_notes_file = '~/Nextcloud/org/refile.org',
+})

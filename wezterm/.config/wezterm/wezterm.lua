@@ -1,7 +1,11 @@
 local wezterm = require 'wezterm'
 
 return {
-  font = wezterm.font 'MesloLGS NF',
+  font = wezterm.font {
+    family = 'FiraCode Nerd Font Mono',
+    stretch = 'Normal',
+    weight = 'Regular',
+  },
   font_size = 12,
   color_scheme = "nightfox",
   hide_tab_bar_if_only_one_tab = true,
