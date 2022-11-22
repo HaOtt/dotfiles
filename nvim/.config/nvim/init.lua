@@ -9,29 +9,50 @@ if fn.empty(fn.glob(install_path)) > 0 then
   packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use "EdenEast/nightfox.nvim"
   use {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig",
+    'VonHeikemen/lsp-zero.nvim',
+    requires = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/mason.nvim'},
+      {'williamboman/mason-lspconfig.nvim'},
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-buffer'},
+      {'hrsh7th/cmp-path'},
+      {'saadparwaiz1/cmp_luasnip'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'hrsh7th/cmp-nvim-lua'},
+
+      -- Snippets
+      {'L3MON4D3/LuaSnip'},
+      {'rafamadriz/friendly-snippets'},
+    }
   }
   use {
     'nvim-telescope/telescope.nvim',
     'nvim-lua/plenary.nvim',
   }
-  use {
-    {'ms-jpq/coq_nvim', branch = 'coq'},
-    {'ms-jpq/coq.artifacts', branch = 'artifacts'},
-    {'ms-jpq/coq.thirdparty', branch = '3p'},
-  }
+
   use {
 	  "windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup {} end
   }
   use 'lervag/vimtex'
-  use {'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps'}
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', -- optional, for file icons
+    },
+    tag = 'nightly' -- optional, updated every week. (see issue #1193)
+  }
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use {'nvim-orgmode/orgmode'}
 
@@ -52,7 +73,7 @@ km("n", "<leader>sv", ":source $MYVIMRC<cr>", { noremap = true })
 km("n", "<leader>f", ":Telescope find_files<cr>", { noremap = true })
 km("n", "<leader>g", ":Telescope live_grep<cr>", { noremap = true })
 km("n", "<leader>b", ":Telescope buffers<cr>", { noremap = true })
-km("n", "<leader>n", ":CHADopen<cr>", { noremap = true })
+km("n", "<leader>n", ":NvimTreeToggle<cr>", { noremap = true })
 
 o.tabstop = 2
 o.softtabstop = 2
@@ -80,22 +101,14 @@ cmd('colorscheme nightfox')
 
 g.vimtex_view_method = "zathura"
 
+require("nvim-tree").setup()
 
-require("mason").setup()
-require("mason-lspconfig").setup()
-g.coq_settings = {auto_start = 'shut-up'}
-local coq = require "coq"
-require("mason-lspconfig").setup_handlers {
-    function (server_name)
-        require("lspconfig")[server_name].setup(coq.lsp_ensure_capabilities({}))
-    end
-}
-require("coq_3p") {
-  { src = "nvimlua", short_name = "nLUA" },
-  { src = "vimtex",  short_name = "vTEX" },
-  { src = "orgmode", short_name = "ORG" },
+local lsp = require('lsp-zero')
 
-}
+lsp.preset('recommended')
+lsp.nvim_workspace()
+lsp.setup()
+
 require('orgmode').setup_ts_grammar()
 require'nvim-treesitter.configs'.setup {
     highlight = {
